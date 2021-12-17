@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const Jokes = require('../jokes/jokes-model')
-const { checkPayload, checkDatabase , checkUsernameAvail }=require('../middleware/')
+const User = require('../users/user-model')
+const { checkPayload, checkDatabase , checkUsernameAvail }=require('../middleware/auth-middlware')
 
 
 
@@ -10,7 +10,7 @@ router.post('/register', checkPayload, checkDatabase, async (req, res) => {
  try{
   const rounds = process.env.BCRYPT_ROUNDS || 8
   const hash = bcrypt.hashSync(req.body.password, rounds)
-  const newUsers = await Jokes.addUser({id: req.body.id, username: req.body.username, password: hash})
+  const newUsers = await User.addUser({id: req.body.id, username: req.body.username, password: hash})
   res.status(200).json(newUsers)
  }catch(error){
    res.status(200).json({message: error.message})
@@ -21,7 +21,7 @@ router.post('/register', checkPayload, checkDatabase, async (req, res) => {
 router.post('/login', checkPayload, checkUsernameAvail, (req, res) => {
   let {username, password} = req.body
  
-  Jokes.findByUserName({username})
+  User.findByUserName({username})
   .then(([user]) => {
     if(user && bcrypt.compareSync(password, user.password)){
       const token = newToken(user)

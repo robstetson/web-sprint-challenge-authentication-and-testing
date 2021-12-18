@@ -71,4 +71,4 @@ and E2E that behaves like a normal user would , and checks all functions work pr
 
 4. How does _Test Driven Development_ change the way we write applications and tests?
 
-it helps verify our results of inteded data
+it helps verify our results of inteded data, helps write working and useable code. 

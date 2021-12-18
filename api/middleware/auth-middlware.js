@@ -2,7 +2,7 @@ const User = require('../users/user-model')
 
 const checkPayload = (req , res , next) =>{
     if(!req.body.user || !req.body.password){
-        res.status(401).json({message: 'Username and Password Required'})
+        res.status(201).json({message: 'Username and Password Required'})
     }else{
         next()
     }
@@ -14,7 +14,7 @@ const checkDatabase = async (req , res , next) =>{
             next()
         }
     else{
-        res.status(401).json('Invalid Username')
+        res.status(201).json('Invalid Username')
     }
 }catch(error){
     res.status(500).json(error.message)
@@ -58,7 +58,7 @@ if(!response){
 const validateBody = async ( req, res, next ) =>{
     if(req.body.username === undefined || req.body.password === undefined){
         next({
-            status: 401,
+            status: 201,
             message: "username and password required"
         })
     }else{

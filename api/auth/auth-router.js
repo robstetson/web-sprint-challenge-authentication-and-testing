@@ -21,12 +21,12 @@ router.post('/register', checkPayload, checkDatabase, async (req, res) => {
 router.post('/login', checkPayload, checkUsernameAvail, (req, res) => {
   let {username, password} = req.body
  
-  User.findByUserName({username})
+  User.getUsername({username})
   .then(([user]) => {
     if(user && bcrypt.compareSync(password, user.password)){
       const token = newToken(user)
       res.status(200).json({
-        message: `welcome ${user.name}`,
+        message: `welcome ${user.username}`,
         token
       })
     } else {
@@ -35,8 +35,6 @@ router.post('/login', checkPayload, checkUsernameAvail, (req, res) => {
        })
     }
  
-   
-    
   })
  });
 
